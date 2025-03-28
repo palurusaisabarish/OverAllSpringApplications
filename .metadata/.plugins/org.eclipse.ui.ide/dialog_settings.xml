@@ -48,16 +48,17 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="/home/next/Desktop/Spring"/>
 			<item value="/home/next/Desktop/Myfolder/Intern/praticeprograms/src/praticeprograms"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
 			<item value=""/>
 		</list>
 		<section name="ExternalProjectImportWizard.dialogBounds">
-			<item key="DIALOG_X_ORIGIN" value="626"/>
-			<item key="DIALOG_Y_ORIGIN" value="183"/>
+			<item key="DIALOG_X_ORIGIN" value="630"/>
+			<item key="DIALOG_Y_ORIGIN" value="174"/>
 			<item key="DIALOG_WIDTH" value="613"/>
-			<item key="DIALOG_HEIGHT" value="781"/>
+			<item key="DIALOG_HEIGHT" value="779"/>
 			<item key="DIALOG_FONT_NAME" value="1|Ubuntu|11.0|0|GTK|1|"/>
 		</section>
 	</section>

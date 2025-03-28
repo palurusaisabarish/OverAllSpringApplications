@@ -1,7 +1,0 @@
-spring.application.name=SpringSecurity
-
-#logging.level.org.springframework.security=DEBUG
-#logging.level.org.springframework.web.filter=DEBUG
-
-spring.security.user.name=sai
-spring.security.user.password=password

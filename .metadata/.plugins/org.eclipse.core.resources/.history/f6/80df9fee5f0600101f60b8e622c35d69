@@ -1,0 +1,39 @@
+package com.example.demo.Repository;
+
+import java.util.Collection;
+import java.util.Collections;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.example.demo.model.User;
+
+public class UserPrincipal  implements UserDetails{
+
+	
+	User user;
+	
+	
+	public UserPrincipal(User user) {
+		this.user =  user;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+	    return Collections.singleton(new SimpleGrantedAuthority("USER"));
+	}
+
+
+	@Override
+	public String getPassword() {
+		return user.get);
+	}
+
+	@Override
+	public String getUsername() {
+		return user.getUsername();
+	}
+
+	
+}

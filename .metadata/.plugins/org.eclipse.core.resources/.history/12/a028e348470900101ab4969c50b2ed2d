@@ -1,0 +1,44 @@
+package com.example.demo.Service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.Repo.QuestionRepo;
+import com.example.demo.model.QuestionDB;
+
+@Service
+public class QuestionService {
+
+	@Autowired
+	private QuestionRepo questionRepo;
+	
+	//ExceptionHandling...
+	public ResponseEntity<List<QuestionDB>> getAllquestions() {
+		
+		try {
+		return new ResponseEntity<>(questionRepo.findAll(),HttpStatus.OK);
+		}catch(Exception e) { e.printStackTrace(); }
+		
+		return new ResponseEntity<>(questionRepo.findAll(),HttpStatus.BAD_REQUEST);
+	}
+
+	public ResponseEntity<List<QuestionDB>> findByCategory(String category) {
+		return new ResponseEntity<>(questionRepo.findByCategory(category),HttpStatus.FOUND);
+	}
+
+	public void addQuestion(QuestionDB question) {
+		questionRepo.save(question);
+	}
+
+	public void updateQuestion(QuestionDB questionDB) {
+		questionRepo.save(questionDB);
+	}
+
+	public void deleteQuestion(int id) {
+		questionRepo.deleteById(id);
+	}
+}

@@ -1,0 +1,111 @@
+package com.example.demo.Securityconfig;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import jakarta.servlet.Filter;
+
+
+@Configuration
+@EnableWebSecurity
+public class SpringSecurity {
+
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private JwtFilter jwtFilter;
+	 
+	@Bean
+	public AuthenticationProvider authenticationProvider() {
+		
+		DaoAuthenticationProvider  provider = new DaoAuthenticationProvider();
+		//we are working with database so DAO - Data Access Object
+		
+		
+		provider.setUserDetailsService(userDetailsService); 
+		provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
+		return provider;
+	}
+	
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity hs) throws Exception {
+	    hs
+	        .csrf(customizer -> customizer.disable()) // Disable CSRF if you are using JWT (stateless)
+	        .authorizeHttpRequests(request -> request
+	            .requestMatchers("/register", "/login") // Allow these URLs without authentication
+	            .permitAll()
+	            .anyRequest() // Require authentication for any other request
+	            .authenticated())
+	        .formLogin(form -> form
+	            .loginPage("/login") // Explicitly specify the login page
+	            .permitAll()) // Allow everyone to access the login page
+	        .logout(logout -> logout
+	            .logoutUrl("/logout") // Specify the custom logout URL
+	            .logoutSuccessUrl("/login") // Redirect to login page after logout
+	            .permitAll()) // Allow everyone to access logout
+	        .httpBasic(Customizer.withDefaults()) // Enable basic HTTP authentication if necessary
+	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless configuration
+	        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter before the username password filter
+	    
+	    return hs.build();
+	}
+
+	
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+		return config.getAuthenticationManager();
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//@Bean
+//public UserDetailsService userDetailsService() { 
+//	
+//	UserDetails user = org.springframework.security.core.userdetails.User
+//			.withDefaultPasswordEncoder()
+//			.username("sabarish")
+//			.password("sabarish@123")
+//			.roles("USER")
+//			.build();
+//	
+//	UserDetails admin = org.springframework.security.core.userdetails.User
+//			.withDefaultPasswordEncoder()
+//			.username("admin")
+//			.password("admin@123")
+//			.roles("ADMIN")
+//			.build();
+//	
+//	return new InMemoryUserDetailsManager(user, admin);
+//}

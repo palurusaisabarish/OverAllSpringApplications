@@ -1,0 +1,52 @@
+package com.example.demo.Securityconfig;
+
+import org.apache.catalina.User;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+
+
+@Configuration
+@EnableWebSecurity
+public class SpringSecurity {
+
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity hs) throws Exception {
+		
+		hs
+		
+			.csrf(customizer ->  customizer.disable())
+		    .authorizeHttpRequests(request -> request.anyRequest().authenticated())
+		    .httpBasic(Customizer.withDefaults())
+		    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+		
+		return hs.build();
+	}
+	
+	@Bean
+	public UserDetailsService userDetailsService() { 
+		
+		UserDetails user = org.springframework.security.core.userdetails.User
+				.withDefaultPasswordEncoder()
+				.username("sabarish")
+				.password("sabarish@123")
+				.roles("USER")
+				.build();
+		
+		UserDetails admin = org.springframework.security.core.userdetails.User
+				.withDefaultPasswordEncoder()
+				.username("admin")
+				.password("admin@123")
+				.roles("ADMIN")
+				.build();
+		
+		return new InMemoryUserDetailsManager(user, admin);
+	}
+}

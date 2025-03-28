@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+    
+    <!-- <bean id="Alien" class="com.example.FirstSpringProject.Alien" scope="prototype"></bean> -->
+    
+    <bean id="Alien" class="com.example.FirstSpringProject.Alien">
+    
+    <!-- without sequence -->
+    <constructor-arg index = "1" ref="lap1"></constructor-arg>
+    <constructor-arg index = "0" value="18"/>
+    
+    <!--<property name="age" value="20"></property>-->
+   <!-- <property name="lap" ref="lap1"></property>-->
+    </bean>
+    
+    <bean id="lap1" class="com.example.FirstSpringProject.Laptop"></bean>
+
+</beans>
